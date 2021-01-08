@@ -1,0 +1,8 @@
+.innerHex:hover {
+  opacity: 0.8;
+}
+.icon {
+  pointer-events: none;
+  position: absolute;
+  transform: translate(-50%, -100%);
+}

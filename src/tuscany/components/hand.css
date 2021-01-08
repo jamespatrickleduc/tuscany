@@ -1,0 +1,9 @@
+.handContainer {
+  position: relative;
+}
+.sizer {
+  height: 120px;
+  width: 10px;
+  vertical-align: bottom;
+  display: inline-block;
+}

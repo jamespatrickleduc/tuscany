@@ -1,0 +1,22 @@
+#log {
+  width: 340px;
+  height: 290px;
+  border: 1px solid #333;
+  margin: 4px;
+  border-radius: 4px;
+  padding: 5px;
+  background-color: #eee;
+}
+.entryLog {
+  width: 320px;
+  height: 230px;
+  border: 1px solid #333;
+  margin: 4px;
+  padding: 5px;
+  background-color: #fff;
+  overflow-y: scroll;
+}
+.whatNow {
+  width: 100%;
+  text-align: center;
+}

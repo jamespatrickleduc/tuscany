@@ -1,0 +1,38 @@
+.inventory {
+  display: inline-block;
+  width: 400px;
+  vertical-align: top;
+}
+.upgrade {
+  width: 60px;
+  height: 60px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  margin: 2px;
+  padding-top: 16px;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  text-align: center;
+}
+.active {
+  border: 3px solid #ff4423;
+  cursor: pointer;
+}
+.marbleButton {
+  margin: 2px;
+  padding: 4px 10px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background-color: #ddd;
+  cursor: pointer;
+}
+.gamePhase {
+  display: inline-block;
+  margin: 5px;
+  vertical-align: top;
+}
+.gamePhase div {
+  display: inline-block;
+  width: 80px;
+}

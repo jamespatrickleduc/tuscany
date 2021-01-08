@@ -1,0 +1,55 @@
+.outer {
+  position: relative;
+  height: 365px;
+  width: 500px;
+}
+.tileArea {
+  position: relative;
+  width: 455px;
+  margin: 10px auto;
+  height: 300px;
+}
+.leftUpDown {
+  position: absolute;
+  left: -16px;
+  top: 120px;
+  padding-left: 2px !important;
+  padding-right: 2px !important;
+}
+.rightUpDown {
+  position: absolute;
+  right: -16px;
+  top: 120px;
+  padding-left: 2px !important;
+  padding-right: 2px !important;
+}
+.rotateLeft {
+  position: absolute;
+  top: 290px;
+  left: 80px;
+}
+.rotateMiddle {
+  position: absolute;
+  top: 290px;
+  left: 230px;
+}
+.rotateRight {
+  position: absolute;
+  top: 290px;
+  left: 380px;
+}
+.swapOneTwo {
+  position: absolute;
+  top: 265px;
+  left: 155px;
+}
+.swapTwoThree {
+  position: absolute;
+  top: 265px;
+  left: 305px;
+}
+.boardSetupAccept {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+}
