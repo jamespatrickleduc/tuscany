@@ -18,6 +18,7 @@ function Log({ G, ctx, matchData }) {
   }, [G.log]);
 
   const rows = [];
+
   G.log.forEach((entry, e) => {
     //console.log({ matchData, entry });
     const name =

@@ -1,7 +1,7 @@
 {
   "name": "react-web",
   "scripts": {
-    "start": "parcel src/index.html --port 3000 --open",
+    "start": "parcel src/index.html --port 3000",
     "build": "parcel build src/index.html",
     "serve": "npx nodemon -r esm ./server.js"
   },
@@ -24,6 +24,7 @@
     "bootstrap": "^4.5.3",
     "card": "^2.5.0",
     "esm": "^3.2.25",
+    "express": "^4.17.1",
     "honeycomb-grid": "^3.1.7",
     "images": "^3.2.3",
     "jquery": "^3.5.1",

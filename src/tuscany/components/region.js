@@ -34,7 +34,14 @@ function Region({ G, ctx, moves, playerID }) {
 
   //console.log({ settingUp });
   return (
-    <div style={{ height: height * yScale, width: width * xScale }}>
+    <div
+      style={{
+        height: height * yScale,
+        width: width * xScale,
+        position: "relative",
+      }}
+    >
+      <div style={{ position: "absolute", top: "2%", right: "1%" }}>v0.7</div>
       {regionBoard}
     </div>
   );
