@@ -1,8 +1,12 @@
 .innerHex:hover {
   opacity: 0.8;
 }
+.disabled {
+  opacity: 1 !important;
+}
 .icon {
   pointer-events: none;
   position: absolute;
-  transform: translate(-50%, -100%);
+  margin: 0 !important;
+  transform: translate(-50%, -60%);
 }

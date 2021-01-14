@@ -13,14 +13,8 @@ function Hand({ G, ctx, playerID, moves }) {
   const isInteracting = ctx.activePlayers?.[playerID] === "pay_for_tile";
   const canDraw = ctx.activePlayers?.[playerID] === "do_action";
   const storageIndex = G.players[playerID].storageTileSelected;
-  const tileType = G.players[playerID].storage[storageIndex];
+  const tileType = G.players[playerID].storage[storageIndex]?.split("/")[0];
   const undeclaredWild = tileType === "wild" && declaredWild === "socket";
-
-  const toggleCard = (index) => {
-    if (selected.includes(index)) {
-      setSelected(() => selected.filter((el) => el !== index));
-    } else setSelected(() => [...selected, index]);
-  };
 
   let cards = [];
   let previous = undefined;
@@ -42,10 +36,25 @@ function Hand({ G, ctx, playerID, moves }) {
           }
         }}
         active={selected.includes(c)}
-      />
+      />,
     );
     previous = card;
   });
+  const toggleCard = (index) => {
+    if (selected.includes(index)) {
+      setSelected(() => selected.filter((el) => el !== index));
+    } else {
+      const cardType = combinedHand[index];
+      if (
+        worth < 2 &&
+        (combinedHand.filter((el) => el === cardType).length > 1 ||
+          cardType === tileType ||
+          cardType === "worker")
+      ) {
+        setSelected(() => [...selected, index]);
+      }
+    }
+  };
 
   useEffect(() => {
     if (!isInteracting) return;
@@ -57,13 +66,31 @@ function Hand({ G, ctx, playerID, moves }) {
       resources.push(combinedHand[index]);
       if (combinedHand[index] === "worker") w += 1;
       else if (
-        tileType?.split("/")[0] === combinedHand[index] ||
+        tileType === combinedHand[index] ||
         declaredWild === combinedHand[index]
       )
         w += 1;
-      else w += 0.5;
     });
+
+    const wrongColor = [
+      ...new Set(
+        resources.filter(
+          (el) => !["worker", tileType, declaredWild].includes(el),
+        ),
+      ),
+    ];
+    console.log({ wrongColor });
+    wrongColor.forEach((color) => {
+      const numWrong = resources.filter((el) => el === color).length;
+      w += Math.floor(numWrong / 2);
+      if (numWrong % 2 === 1) {
+        resources.splice(resources.indexOf(color), 1);
+      }
+    });
+
     setWorth(w);
+    console.log({ resources, w });
+
     moves.update_spend_resources(resources, w);
   }, [selected]);
 
@@ -150,8 +177,7 @@ function Hand({ G, ctx, playerID, moves }) {
     if (isInteracting) {
       return (
         <div className="purchasePrompt">
-          <span>{worth}/2</span> How will you pay for your{" "}
-          {tileType.split("/")[0]}?
+          <span>{worth}/2</span> How will you pay for your {tileType}?
           <Button
             onClick={() => {
               moves.cancel_move();

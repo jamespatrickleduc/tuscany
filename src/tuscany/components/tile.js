@@ -12,19 +12,22 @@ class Tile extends React.Component {
       onClick,
       icon,
       highlighted,
+      disabled,
       wild,
     } = this.props;
 
     const type = t.split("/")[0];
     const specialIcon = t.split("/")[1]?.split("&");
 
-    const shadowColor = highlighted ? "#F00" : "#000";
+    const shadowColor = highlighted && !disabled ? "#F00" : "#000";
     const shadowWrap = {
-      filter: `drop-shadow(0px 0px 3px ${shadowColor})`,
+      //filter: `drop-shadow(0px 0px 3px ${shadowColor})`,
       position: "absolute",
       left: x,
       top: y,
     };
+
+    const IconSize = size / 25;
 
     const Hex = ({ size: s, color, name }) => {
       const hexStyle = {
@@ -36,9 +39,15 @@ class Tile extends React.Component {
         WebkitClipPath:
           "polygon(100% 43%, 75% 87%, 25% 87%, 0% 43%, 25% 0%, 75% 0%)",
         clipPath: "polygon(100% 43%, 75% 87%, 25% 87%, 0% 43%, 25% 0%, 75% 0%)",
-        cursor: "pointer",
+        cursor: disabled ? "default" : "pointer",
       };
-      return <div style={hexStyle} className={name} onClick={onClick}></div>;
+      return (
+        <div
+          style={hexStyle}
+          className={{ name, disabled: disabled }}
+          onClick={onClick}
+        ></div>
+      );
     };
 
     const HexIcon = () => {
@@ -46,21 +55,32 @@ class Tile extends React.Component {
         if (specialIcon) {
           let icons = [];
           icons.push(
-            <Icon key="1" path={style[specialIcon[0]].icon} size={1} />
+            <Icon key="1" path={style[specialIcon[0]].icon} size={IconSize} />,
           );
           if (specialIcon.length === 2) {
             icons.push(
-              <Icon key="2" path={style[specialIcon[1]].icon} size={1} />
+              <Icon
+                key="2"
+                path={style[specialIcon[1]].icon}
+                size={IconSize}
+              />,
             );
           }
           const w = specialIcon.length === 2 ? "48px" : null;
           return (
-            <span className="icon" style={{ width: w }}>
+            <span className="icon" style={{ display: "flex" }}>
               {icons}
             </span>
           );
         } else
-          return <Icon path={style[type].icon} size={1} className="icon" />;
+          return (
+            <Icon
+              path={style[type].icon}
+              size={IconSize}
+              className="icon"
+              color={style[type]?.iconColor}
+            />
+          );
       } else return <></>;
     };
 
@@ -70,7 +90,7 @@ class Tile extends React.Component {
           <>
             <Hex color="#333" size={size * 0.7 + 2}></Hex>
             <Hex color={style.wild.fill} size={size * 0.7}></Hex>
-            <Icon path={style.wild.icon} size={1} className="icon" />;
+            <Icon path={style.wild.icon} size={IconSize} className="icon" />;
           </>
         );
       } else return <></>;
@@ -78,7 +98,10 @@ class Tile extends React.Component {
 
     return (
       <div style={shadowWrap}>
-        <Hex color={highlighted ? "#F00" : "#333"} size={size + 2}></Hex>
+        <Hex
+          color={highlighted && !disabled ? "#F00" : "#333"}
+          size={size + 2}
+        ></Hex>
         <Hex color={style[type].fill} size={size} name="innerHex"></Hex>
         <HexIcon />
         <Wild />

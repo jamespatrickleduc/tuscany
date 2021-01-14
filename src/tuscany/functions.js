@@ -8,11 +8,11 @@ export const giveCards = (G, player, num) => {
 };
 
 export const giveGreenPoints = (G, player, num) => {
-  G.players[player].greenPoints += num;
+  G.players[player].greenPoints += Number(num);
 };
 export const giveRedPoints = (G, player, num) => {
   console.log({ G, player, num });
-  G.players[player].redPoints += num;
+  G.players[player].redPoints += Number(num);
 };
 
 export const checkEndTurn = (G, ctx) => {
@@ -34,7 +34,23 @@ export const takeTileFromBank = (G, ctx, bankIndex, slot) => {
   G.players[ctx.currentPlayer].storage[slot] = G.tileBank[bankIndex];
   G.tileBank[bankIndex] = G.players[ctx.currentPlayer].hexTiles.pop();
   G.players[ctx.currentPlayer].bankTileSelected = null;
+  checkBankFiveDuplicates(G);
   checkEndTurn(G, ctx);
+};
+
+const checkBankFiveDuplicates = (G) => {
+  const uniques = [...new Set(G.tileBank)];
+  for (let i = 0; i < uniques.length; i++) {
+    const type = uniques[i].split("/")[0];
+    console.log({ bank: G.tileBank });
+    if (G.tileBank.filter((el) => el.split("/")[0] === type).length >= 5) {
+      G.tileBank = G.tileBank.filter((el) => el.split("/")[0] !== type);
+      G.tileBank.push(...G.neutralTiles.splice(-5, 5));
+      addLoggerEntry(G, "Bank", `Replaced five ${type} tiles`);
+      checkBankFiveDuplicates(G);
+      break;
+    }
+  }
 };
 
 export const giveRegionVPs = (G, ctx, index) => {
@@ -46,6 +62,23 @@ export const giveRegionVPs = (G, ctx, index) => {
     if (group.length === 1) G.players[ctx.currentPlayer].greenPoints += 1;
     if (group.length === 2) G.players[ctx.currentPlayer].greenPoints += 3;
     if (group.length === 3) G.players[ctx.currentPlayer].greenPoints += 6;
+  }
+};
+
+export const giveMonopolyBonus = (G, hexType, playerID) => {
+  const tilesOfType = JSON.parse(
+    JSON.stringify(
+      G.players[playerID].board.filter((el) => el.value === hexType),
+    ),
+  );
+  const monopolized = tilesOfType.reduce((acc, cur) => {
+    if (!cur.inhabited) return false && acc;
+  }, true);
+
+  if (monopolized && G.bonuses[hexType].length > 0) {
+    const bonus = G.bonuses[hexType].splice(0, 1);
+    giveGreenPoints(G, playerID, bonus);
+    addLoggerEntry(G, playerID, `Purchased all ${hexType} tiles!`);
   }
 };
 
@@ -94,7 +127,7 @@ export const putIntoStorage = (G, ctx, from) => {
         G,
         ctx,
         G.players[ctx.currentPlayer].bankTileSelected,
-        emptySpot
+        emptySpot,
       );
     else if (from === "wild") {
       G.players[ctx.currentPlayer].storage[emptySpot] = "wild";
@@ -120,11 +153,10 @@ export const furthestProgress = (G) => {
 };
 
 export const addLoggerEntry = (G, playerID, entry) => {
-  G.logIndex++;
-  G.logEntry = {
+  G.log.push({
     playerID,
     entry,
-  };
+  });
 
-  console.log({ index: G.logIndex, entry });
+  console.log({ playerID, entry });
 };

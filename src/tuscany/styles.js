@@ -55,6 +55,7 @@ const style = {
   },
   castle: {
     fill: "#186933",
+    iconColor: "#FFF",
     icon: mdiCastle,
   },
   wagon: {

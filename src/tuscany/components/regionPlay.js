@@ -5,7 +5,7 @@ import "./sharedRegion.css";
 
 class RegionPlay extends React.Component {
   render() {
-    const { G, ctx, moves, playerID } = this.props;
+    const { G, ctx, moves, playerID, disabled, height } = this.props;
 
     const {
       board,
@@ -17,7 +17,9 @@ class RegionPlay extends React.Component {
       declaredWild,
     } = G.players[playerID];
 
-    const Hex = extendHex({ size: 33, orientation: "flat" });
+    const HexSize = height / 13;
+
+    const Hex = extendHex({ size: HexSize * 1.15, orientation: "flat" });
     const Grid = defineGrid(Hex);
     const tiles = [];
     const grid = Grid(board);
@@ -49,30 +51,32 @@ class RegionPlay extends React.Component {
       tiles.push(
         <Tile
           key={h}
-          size={28}
+          size={HexSize}
           x={x + 30}
           y={y}
           type={board[h].value}
           icon={board[h].inhabited}
           wild={board[h].wild}
+          disabled={disabled}
           highlighted={
             (elligible && buying) ||
             (elligible && isPickingFreebie) ||
             start_castle
           }
           onClick={() => {
+            if (disabled) return;
             console.log({ elligible, buying, start_castle, isPickingFreebie });
             //console.log({ buying, start_castle, isPickingFreebie });
             if (elligible && buying) moves.pay_for_tile(h);
             else if (start_castle) moves.place_starting_castle(h, playerID);
             else if (elligible && isPickingFreebie) moves.place_tile(h);
           }}
-        />
+        />,
       );
     });
 
     return (
-      <div className="outer" style={{ height: "280px", width: "500px" }}>
+      <div className="outer">
         <div className="tileArea">{tiles}</div>
       </div>
     );

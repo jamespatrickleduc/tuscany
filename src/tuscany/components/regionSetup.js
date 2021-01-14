@@ -12,7 +12,7 @@ import {
 } from "@mdi/js";
 import "./sharedRegion.css";
 
-function RegionSetup({ G, ctx, moves, playerID }) {
+function RegionSetup({ G, ctx, moves, playerID, height }) {
   const [leftUp, setLeftUp] = useState(true);
   const [rightUp, setRightUp] = useState(true);
   const [tilesArray, setTilesArray] = useState([]);
@@ -35,7 +35,9 @@ function RegionSetup({ G, ctx, moves, playerID }) {
     setBoard(newPosition);
   }, [tilesArray, leftUp, rightUp]);
 
-  const Hex = extendHex({ size: 33, orientation: "flat" });
+  const HexSize = height / 13;
+
+  const Hex = extendHex({ size: HexSize * 1.15, orientation: "flat" });
   const Grid = defineGrid(Hex);
   const tiles = [];
   const grid = Grid(board);
@@ -43,7 +45,9 @@ function RegionSetup({ G, ctx, moves, playerID }) {
   grid.forEach((hex, h) => {
     if (hex.value !== undefined) {
       const { x, y } = hex.toPoint();
-      tiles.push(<Tile key={h} size={28} x={x + 30} y={y} type={hex.value} />);
+      tiles.push(
+        <Tile key={h} size={HexSize} x={x + 30} y={y} type={hex.value} />,
+      );
     }
   });
 

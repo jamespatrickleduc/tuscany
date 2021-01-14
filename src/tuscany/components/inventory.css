@@ -1,19 +1,18 @@
 .inventory {
   display: inline-block;
-  width: 400px;
   vertical-align: top;
 }
 .upgrade {
-  width: 60px;
-  height: 60px;
   border: 1px solid #333;
   border-radius: 4px;
   margin: 2px;
-  padding-top: 16px;
   position: relative;
   display: inline-block;
   vertical-align: top;
   text-align: center;
+}
+.upgrade > svg {
+  height: 100% !important;
 }
 .active {
   border: 3px solid #ff4423;

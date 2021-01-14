@@ -17,11 +17,11 @@ import "./app.css";
 export const App = () => (
   <Router>
     <Switch>
-      <Route path="/">
-        <TuscanyLobby></TuscanyLobby>
-      </Route>
       <Route path="/debug">
         <Multiplayer></Multiplayer>
+      </Route>
+      <Route path="/">
+        <TuscanyLobby></TuscanyLobby>
       </Route>
     </Switch>
   </Router>

@@ -8,6 +8,7 @@ import {
   giveGreenPoints,
   putIntoStorage,
   addLoggerEntry,
+  giveMonopolyBonus,
 } from "./functions";
 
 export const draw_cards = (G, ctx) => {
@@ -32,7 +33,7 @@ export const select_bank_tile = (G, ctx, index) => {
 
   if (ctx.activePlayers[ctx.currentPlayer] === "do_action") {
     putIntoStorage(G, ctx, "bank");
-    addLoggerEntry(G, ctx.currentPlayer, `Took a tile`);
+    //addLoggerEntry(G, ctx.currentPlayer, `Took a tile`);
   }
 };
 
@@ -161,9 +162,10 @@ export const place_tile = (G, ctx, index) => {
   addLoggerEntry(
     G,
     ctx.currentPlayer,
-    `Placed a ${hexType} ${wagonText.join(", ")}`
+    `Placed a ${hexType} ${wagonText.join(", ")}`,
   );
   giveRegionVPs(G, ctx, index);
+  giveMonopolyBonus(G, hexType, ctx.currentPlayer);
   G.players[ctx.currentPlayer].storageTileSelected = null;
   G.players[ctx.currentPlayer].bankTileSelected = null;
 };

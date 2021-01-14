@@ -125,17 +125,23 @@ const Tuscany = {
         workers: 5,
         yield: 5,
       },
+      bonuses: {
+        farm: [4, 2],
+        village: [3, 1],
+        wagon: [3, 1],
+        monastery: [3, 1],
+        quarry: [3, 1],
+        city: [2, 1],
+        inn: [2, 1],
+        castle: [2, 1],
+      },
       yieldDeck,
       regionDeck,
       neutralTiles,
       tileBank,
       roundOneScored: false,
       roundTwoScored: false,
-      logIndex: 0,
-      logEntry: {
-        playerID: null,
-        entry: null,
-      },
+      log: [],
     };
   },
 

@@ -15,11 +15,12 @@ import Board from "./board";
 const App = Client({
   game: Tuscany,
   board: Board,
-  debug: true,
-  multiplayer: SocketIO({ server: "http://73.152.48.200:8000" }),
+  debug: false,
+  multiplayer: SocketIO({ server: "localhost:8000" }),
+  numPlayers: 2,
 });
 
-const [nothing, matchID, playerID] = window.location.pathname.split("/");
+const [nothing, debug, matchID, playerID] = window.location.pathname.split("/");
 console.log({ matchID, playerID });
 
 const Multiplayer = () => (
