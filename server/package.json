@@ -1,0 +1,17 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "boardgame.io": "^0.42.2",
+    "esm": "^3.2.25"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "serve": "npx nodemon -r esm ./server.js",
+    "production": "node -r esm ./server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
