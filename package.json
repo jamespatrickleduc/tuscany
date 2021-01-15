@@ -3,7 +3,8 @@
   "scripts": {
     "start": "parcel src/index.html --port 3000",
     "build": "parcel build src/index.html",
-    "serve": "npx nodemon -r esm ./server.js"
+    "serve": "npx nodemon -r esm ./server.js",
+    "production": "node -r esm ./server.js"
   },
   "devDependencies": {
     "parcel-bundler": "^1.11.0"
