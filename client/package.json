@@ -28,6 +28,7 @@
     "images": "^3.2.3",
     "jquery": "^3.5.1",
     "konva": "^7.2.1",
+    "parcel": "^1.12.4",
     "parcel-plugin-svelte": "^4.0.4",
     "popper.js": "^1.16.1",
     "react": "^17.0.1",
