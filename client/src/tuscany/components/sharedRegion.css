@@ -6,50 +6,56 @@
 .tileArea {
   position: relative;
   margin-left: 12%;
+  margin-top: 3%;
   height: 100%;
   width: 100%;
 }
 .leftUpDown {
   position: absolute;
-  left: -16px;
-  top: 120px;
+  left: 3%;
+  top: 40%;
   padding-left: 2px !important;
   padding-right: 2px !important;
 }
 .rightUpDown {
   position: absolute;
-  right: -16px;
-  top: 120px;
+  right: 3%;
+  top: 40%;
   padding-left: 2px !important;
   padding-right: 2px !important;
 }
 .rotateLeft {
   position: absolute;
-  top: 290px;
-  left: 80px;
+  bottom: 10%;
+  left: 24%;
+  transform: translate(-50%, 0);
 }
 .rotateMiddle {
   position: absolute;
-  top: 290px;
-  left: 230px;
+  bottom: 10%;
+  left: 49%;
+  transform: translate(-50%, 0);
 }
 .rotateRight {
   position: absolute;
-  top: 290px;
-  left: 380px;
+  bottom: 10%;
+  left: 75%;
+  transform: translate(-50%, 0);
 }
 .swapOneTwo {
   position: absolute;
-  top: 265px;
-  left: 155px;
+  bottom: 13%;
+  left: 37%;
+  transform: translate(-50%, 0);
 }
 .swapTwoThree {
   position: absolute;
-  top: 265px;
-  left: 305px;
+  bottom: 13%;
+  left: 61%;
+  transform: translate(-50%, 0);
 }
 .boardSetupAccept {
   position: absolute;
-  right: 0px;
   bottom: 0px;
+  right: 0px;
 }

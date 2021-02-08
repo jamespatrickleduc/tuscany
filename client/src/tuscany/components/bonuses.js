@@ -47,7 +47,7 @@ export default function Bonuses({ G, height }) {
       style={{
         position: "absolute",
         bottom: "60%",
-        left: 0,
+        right: "52%",
         display: "flex",
       }}
     >

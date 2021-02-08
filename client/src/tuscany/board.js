@@ -51,7 +51,9 @@ function Board({
 
   let enemies = [];
   enemyIDs.forEach((id) => {
-    enemies.push(<EnemyBoard key={id} G={G} ctx={ctx} id={id} />);
+    enemies.push(
+      <EnemyBoard key={id} G={G} ctx={ctx} id={id} matchData={matchData} />,
+    );
   });
 
   const settingUp = Object.values(ctx.activePlayers).reduce((acc, cur) => {
@@ -74,13 +76,19 @@ function Board({
           <Bank G={G} playerID={playerID} ctx={ctx} moves={moves} />
         </>
       }
-      <Inventory
-        G={G}
-        playerID={playerID}
-        ctx={ctx}
-        moves={moves}
-        height={height * 0.4}
-      />
+      <div style={{ position: "absolute", left: "35%", top: "55%" }}>
+        <div>Round Score</div>
+        <div>Total Score</div>
+      </div>
+      <div style={{ position: "absolute", left: width / 100, bottom: 0 }}>
+        <Inventory
+          G={G}
+          playerID={playerID}
+          ctx={ctx}
+          moves={moves}
+          height={height * 0.4}
+        />
+      </div>
       <div style={{ position: "absolute", right: 0, bottom: 0 }}>{enemies}</div>
       <Prompt G={G} playerID={playerID} ctx={ctx} moves={moves} />
     </div>

@@ -9,6 +9,8 @@ services:
       - ./server:/server
       - ./client:/client
     ports: ["8000:8000"]
+    environment:
+      - SERVER_HOST=http://server:8000
   client:
     container_name: client
     build:

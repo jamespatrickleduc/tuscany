@@ -21,7 +21,12 @@ class Card extends React.Component {
         }`}
         style={{ backgroundColor: style[type].fill }}
       >
-        <Icon path={style[type].icon} size={1} style={iconStyle} />
+        <Icon
+          path={style[type].icon}
+          size={1}
+          style={iconStyle}
+          color={style[type]?.iconColor}
+        />
       </div>
     );
   }

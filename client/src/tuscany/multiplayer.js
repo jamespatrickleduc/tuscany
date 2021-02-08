@@ -16,7 +16,7 @@ const App = Client({
   game: Tuscany,
   board: Board,
   debug: false,
-  multiplayer: SocketIO({ server: "127.0.0.1:8000" }),
+  multiplayer: SocketIO({ server: "localhost:8000" }),
   numPlayers: 2,
 });
 

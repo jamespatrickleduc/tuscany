@@ -9,8 +9,8 @@ const TuscanyLobby = () => {
   return (
     <div style={style}>
       <Lobby
-        gameServer="http://127.0.0.1:8000"
-        lobbyServer="http://127.0.0.1:8000"
+        gameServer="http://jamespatrickleduc.com:8000"
+        lobbyServer="http://jamespatrickleduc.com:8000"
         gameComponents={[{ game: Tuscany, board: Board }]}
         debug={true}
       />

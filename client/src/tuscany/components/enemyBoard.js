@@ -6,10 +6,12 @@ import PhaseIndicator from "./phaseIndicator";
 import { mdiDiamondOutline } from "@mdi/js";
 import Icon from "@mdi/react";
 
-function EnemyBoard({ G, ctx, id }) {
+function EnemyBoard({ G, ctx, id, matchData }) {
   let [width, height] = useWindowSize();
   height *= 0.2;
   width *= 0.5;
+
+  const name = matchData.find((el) => el.id === Number(id))?.name || id;
 
   const onTurn = ![undefined, "setup"].includes(ctx.activePlayers?.[id]);
   const bonusTurn = G.players[id].onBonusTurn;
@@ -27,7 +29,9 @@ function EnemyBoard({ G, ctx, id }) {
         justifyContent: "flex-end",
       }}
     >
-      <div style={{ position: "absolute", top: 0, left: 0 }}>Enemy #{id}</div>
+      <div style={{ position: "absolute", top: 0, left: 0 }}>
+        {name}({id})
+      </div>
       {bonusTurn && (
         <Icon
           path={mdiDiamondOutline}

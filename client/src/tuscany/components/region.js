@@ -1,7 +1,6 @@
 import React from "react";
 import RegionPlay from "./regionPlay";
 import RegionSetup from "./regionSetup";
-import Card from "react-bootstrap/Card";
 import "./region.css";
 
 import useWindowSize from "../hooks/windowSize";
