@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useState } from "react";
 //import PropTypes from "prop-types";
 import "./board.css";
 
+import Tile from "./components/tile";
 import Region from "./components/region";
 import Hand from "./components/hand";
 import Bank from "./components/bank";
@@ -12,6 +13,16 @@ import EnemyBoard from "./components/enemyBoard";
 
 import useWindowSize from "./hooks/windowSize";
 import Bonuses from "./components/bonuses";
+import Badge from "react-bootstrap/Badge";
+
+import Icon from "@mdi/react";
+import {
+  mdiNumeric1BoxOutline,
+  mdiHumanHandsup,
+  mdiGiftOutline,
+  mdiDiamondOutline,
+  mdiPlusOne,
+} from "@mdi/js";
 
 function Board({
   G,
@@ -36,6 +47,7 @@ function Board({
   // };
 
   const [width, height] = useWindowSize();
+  const iconSize = height / 750;
 
   const beforeMe = Object.keys(ctx.playOrder).slice(
     0,
@@ -60,6 +72,9 @@ function Board({
     if (cur === "setup") return true;
   }, false);
 
+  const { greenPoints, redPoints } = G.players[playerID];
+  const { upgrades } = G;
+
   return (
     <div
       className="tuscanyBoard"
@@ -69,18 +84,23 @@ function Board({
         <Region G={G} playerID={playerID} ctx={ctx} moves={moves} />
         <Log G={G} playerID={playerID} ctx={ctx} matchData={matchData} />
       </div>
-      {
-        /*!settingUp &&*/ <>
+      {!settingUp && (
+        <>
           <Bonuses G={G} height={height * 0.07} />
           <Hand G={G} playerID={playerID} ctx={ctx} moves={moves} />
           <Bank G={G} playerID={playerID} ctx={ctx} moves={moves} />
         </>
-      }
-      <div style={{ position: "absolute", left: "35%", top: "55%" }}>
-        <div>Round Score</div>
-        <div>Total Score</div>
+      )}
+      <div style={{ position: "absolute", right: "54%", top: "55%" }}>
+        My Points
+        <Badge style={{ fontSize: 20, margin: 4 }} variant="success">
+          {greenPoints}
+        </Badge>
+        <Badge style={{ fontSize: 20 }} variant="danger">
+          {redPoints}
+        </Badge>
       </div>
-      <div style={{ position: "absolute", left: width / 100, bottom: 0 }}>
+      <div style={{ position: "absolute", left: width / 100, top: "57%" }}>
         <Inventory
           G={G}
           playerID={playerID}
@@ -88,6 +108,41 @@ function Board({
           moves={moves}
           height={height * 0.4}
         />
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          left: width / 100,
+          bottom: "1%",
+          width: "35%",
+          display: "flex",
+        }}
+      >
+        <div>Remaining: </div>
+        <div style={{ width: "25%" }}>
+          <Icon path={mdiNumeric1BoxOutline} size={iconSize} /> {upgrades.draw}
+        </div>
+        <div style={{ display: "flex", width: "25%" }}>
+          <div style={{ width: height / 40, marginLeft: "25%" }}>
+            <Tile
+              type="socket"
+              y={height / 55}
+              size={height / 60}
+              icon
+              disabled
+            />
+          </div>
+          <div>{upgrades.storage}</div>
+        </div>
+        <div style={{ width: "25%" }}>
+          <Icon path={mdiDiamondOutline} size={iconSize} /> {upgrades.marble}
+        </div>
+        <div style={{ width: "25%" }}>
+          <Icon path={mdiHumanHandsup} size={iconSize} /> {upgrades.workers}
+        </div>
+        <div style={{ width: "25%" }}>
+          <Icon path={mdiGiftOutline} size={iconSize} /> {upgrades.yield}
+        </div>
       </div>
       <div style={{ position: "absolute", right: 0, bottom: 0 }}>{enemies}</div>
       <Prompt G={G} playerID={playerID} ctx={ctx} moves={moves} />

@@ -4,8 +4,10 @@ import "./hand.css";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import Tile from "./tile";
+import useWindowSize from "../hooks/windowSize";
 
 function Hand({ G, ctx, playerID, moves }) {
+  const [width, height] = useWindowSize();
   const [selected, setSelected] = useState([]);
   const [worth, setWorth] = useState(0);
   const [declaredWild, setDeclaredWild] = useState("socket");
@@ -22,6 +24,8 @@ function Hand({ G, ctx, playerID, moves }) {
     ...Array(G.players[playerID].workers).fill("worker"),
     ...G.players[playerID].hand,
   ];
+
+  const cardSize = height / 18;
   combinedHand.forEach((card, c) => {
     const stacked = c !== 0 && previous === card;
     cards.push(
@@ -29,6 +33,7 @@ function Hand({ G, ctx, playerID, moves }) {
         type={card}
         key={c}
         stacked={stacked}
+        size={cardSize}
         onClick={() => {
           console.log("clicked card");
           if (isInteracting && !undeclaredWild) {
@@ -144,9 +149,9 @@ function Hand({ G, ctx, playerID, moves }) {
         <>
           <Dropdown
             onSelect={declareWild}
-            className={"d-inline-block align-middle"}
+            className={"d-inline-block align-middle ml-3"}
           >
-            <Dropdown.Toggle>What will the wild be?</Dropdown.Toggle>
+            <Dropdown.Toggle>Declare Wild</Dropdown.Toggle>
 
             <Dropdown.Menu>
               <Item tile="castle" />
@@ -160,7 +165,7 @@ function Hand({ G, ctx, playerID, moves }) {
             </Dropdown.Menu>
           </Dropdown>
           <div
-            className={"position-relative d-inline-block ml-3 align-middle"}
+            className={"position-relative d-inline-block mx-3 align-middle"}
             style={{
               height: "40px",
               width: "40px",
@@ -177,8 +182,9 @@ function Hand({ G, ctx, playerID, moves }) {
     if (isInteracting) {
       return (
         <div className="purchasePrompt">
-          <span>{worth}/2</span> How will you pay for your {tileType}?
+          <span>{worth}/2</span> Pay for the {tileType}
           <Button
+            className={"ml-3"}
             onClick={() => {
               moves.cancel_move();
             }}
@@ -191,21 +197,46 @@ function Hand({ G, ctx, playerID, moves }) {
   };
 
   return (
-    <div className="handContainer">
-      <WildDeclarer />
-      <PurchasePrompt />
-      <Button
-        className="ml-2"
-        disabled={!canDraw}
-        onClick={() => {
-          moves.draw_cards();
+    <div
+      style={{
+        position: "absolute",
+        top: "41%",
+        left: 0,
+        width: "50%",
+        height: "13%",
+      }}
+    >
+      <div style={{ display: "flex" }}>
+        <WildDeclarer />
+        <PurchasePrompt />
+      </div>
+      <div
+        style={{
+          position: "absolute",
+          bottom: "0%",
+          left: "1%",
         }}
-        size="lg"
       >
-        Draw
-      </Button>
-      <div className="sizer"></div>
-      {cards}
+        <Button
+          className="ml-2"
+          disabled={!canDraw}
+          onClick={() => {
+            moves.draw_cards();
+          }}
+          size="lg"
+        >
+          Draw
+        </Button>
+        <div
+          style={{
+            height: height / 12,
+            width: 10,
+            verticalAlign: "bottom",
+            display: "inline-block",
+          }}
+        ></div>
+        {cards}
+      </div>
     </div>
   );
 }

@@ -3,8 +3,10 @@ import useWindowSize from "../hooks/windowSize";
 import RegionPlay from "./regionPlay";
 import Inventory from "./inventory";
 import PhaseIndicator from "./phaseIndicator";
+import Stack from "./stack";
 import { mdiDiamondOutline } from "@mdi/js";
 import Icon from "@mdi/react";
+import Badge from "react-bootstrap/Badge";
 
 function EnemyBoard({ G, ctx, id, matchData }) {
   let [width, height] = useWindowSize();
@@ -14,7 +16,12 @@ function EnemyBoard({ G, ctx, id, matchData }) {
   const name = matchData.find((el) => el.id === Number(id))?.name || id;
 
   const onTurn = ![undefined, "setup"].includes(ctx.activePlayers?.[id]);
-  const bonusTurn = G.players[id].onBonusTurn;
+
+  const { greenPoints, redPoints, bonusTurn, hexTiles } = G.players[id];
+
+  const stackC = hexTiles.slice(0, 7).length;
+  const stackB = hexTiles.slice(7, 14).length;
+  const stackA = hexTiles.slice(14, 21).length;
 
   return (
     <div
@@ -29,7 +36,7 @@ function EnemyBoard({ G, ctx, id, matchData }) {
         justifyContent: "flex-end",
       }}
     >
-      <div style={{ position: "absolute", top: 0, left: 0 }}>
+      <div style={{ position: "absolute", top: 0, left: 5 }}>
         {name}({id})
       </div>
       {bonusTurn && (
@@ -38,20 +45,44 @@ function EnemyBoard({ G, ctx, id, matchData }) {
           size={height / 120}
           style={{
             position: "absolute",
-            top: "40%",
+            top: "30%",
             left: "1%",
           }}
         />
       )}
-      <RegionPlay
-        G={G}
-        ctx={ctx}
-        playerID={id}
-        height={height * 1.2}
-        disabled
-      />
-      <PhaseIndicator G={G} playerID={id} height={height} />
-      <Inventory G={G} playerID={id} ctx={ctx} height={height} disabled />
+      <div
+        style={{
+          position: "absolute",
+          left: "1%",
+          bottom: "2%",
+          fontSize: height / 8,
+        }}
+      >
+        <Badge style={{ margin: 4, display: "block" }} variant="success">
+          {greenPoints}
+        </Badge>
+        <Badge style={{ margin: 4, display: "block" }} variant="danger">
+          {redPoints}
+        </Badge>
+      </div>
+      <div style={{ position: "absolute", top: "14%", left: "8%" }}>
+        <RegionPlay
+          G={G}
+          ctx={ctx}
+          playerID={id}
+          height={height * 1.1}
+          disabled
+        />
+      </div>
+      {/*<PhaseIndicator G={G} playerID={id} height={height} />*/}
+      <div style={{ position: "absolute", bottom: "1%", left: "60%" }}>
+        <Stack height={height / 3} num={stackA} />
+        <Stack height={height / 3} num={stackB} />
+        <Stack height={height / 3} num={stackC} />
+      </div>
+      <div style={{ marginTop: "1%" }}>
+        <Inventory G={G} playerID={id} ctx={ctx} height={height} disabled />
+      </div>
     </div>
   );
 }

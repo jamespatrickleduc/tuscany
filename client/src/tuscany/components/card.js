@@ -5,11 +5,11 @@ import "./card.css";
 
 class Card extends React.Component {
   render() {
-    const { type, stacked, onClick, active } = this.props;
+    const { type, stacked, onClick, active, size } = this.props;
 
     const iconStyle = {
       pointerEvents: "none",
-      margin: "15px auto",
+      margin: "40% auto",
       display: "block",
     };
 
@@ -19,11 +19,15 @@ class Card extends React.Component {
         className={`myCard ${stacked ? "stacked" : ""} ${
           active ? "cardActive" : ""
         }`}
-        style={{ backgroundColor: style[type].fill }}
+        style={{
+          backgroundColor: style[type].fill,
+          height: size,
+          width: size * 0.75,
+        }}
       >
         <Icon
           path={style[type].icon}
-          size={1}
+          size={size / 50}
           style={iconStyle}
           color={style[type]?.iconColor}
         />
