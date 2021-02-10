@@ -41,7 +41,7 @@ function Hand({ G, ctx, playerID, moves }) {
           }
         }}
         active={selected.includes(c)}
-      />,
+      />
     );
     previous = card;
   });
@@ -54,6 +54,7 @@ function Hand({ G, ctx, playerID, moves }) {
         worth < 2 &&
         (combinedHand.filter((el) => el === cardType).length > 1 ||
           cardType === tileType ||
+          cardType === declaredWild ||
           cardType === "worker")
       ) {
         setSelected(() => [...selected, index]);
@@ -80,8 +81,8 @@ function Hand({ G, ctx, playerID, moves }) {
     const wrongColor = [
       ...new Set(
         resources.filter(
-          (el) => !["worker", tileType, declaredWild].includes(el),
-        ),
+          (el) => !["worker", tileType, declaredWild].includes(el)
+        )
       ),
     ];
     console.log({ wrongColor });

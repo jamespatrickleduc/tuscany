@@ -29,14 +29,15 @@ function Inventory({ G, playerID, moves, ctx, disabled, height }) {
     redPoints,
   } = G.players[playerID];
 
-  const stackC = hexTiles.slice(0, 7).length;
-  const stackB = hexTiles.slice(7, 14).length;
-  const stackA = hexTiles.slice(14, 21).length;
-
   const storageHighlight = G.players[playerID].storageTileSelected;
 
-  const DrawStack = ({ height }) => {
-    return <span>{height}</span>;
+  const InvBadge = ({ num }) => {
+    if (num === 0) return <></>;
+    return (
+      <Badge style={{ position: "absolute", zIndex: 100 }} variant="success">
+        {num}
+      </Badge>
+    );
   };
 
   const UpgradeSize = height / 6;
@@ -49,7 +50,15 @@ function Inventory({ G, playerID, moves, ctx, disabled, height }) {
   const UpgradeButton = ({ children, move }) => {
     return (
       <div style={{ display: "inline-block", width: "70px" }}>
-        <div style={{ textAlign: "center", marginTop: "4px" }}>{children}</div>
+        <div
+          style={{
+            textAlign: "center",
+            marginTop: "4px",
+            fontSize: height / 25,
+          }}
+        >
+          {children}
+        </div>
         <Button
           size="sm"
           style={{
@@ -60,7 +69,7 @@ function Inventory({ G, playerID, moves, ctx, disabled, height }) {
             if (upgradeAvailable) move(playerID);
           }}
         >
-          <Icon path={mdiPlusOne} size={1} />
+          <Icon path={mdiPlusOne} size={0.9} />
         </Button>
       </div>
     );
@@ -77,7 +86,7 @@ function Inventory({ G, playerID, moves, ctx, disabled, height }) {
             style={{ height: UpgradeSize, width: UpgradeSize }}
           >
             <Icon path={mdiNumeric2BoxMultipleOutline} size={IconSize} />
-          </div>,
+          </div>
         );
       else
         boxes.push(
@@ -87,7 +96,7 @@ function Inventory({ G, playerID, moves, ctx, disabled, height }) {
             style={{ height: UpgradeSize, width: UpgradeSize }}
           >
             <Icon path={mdiNumeric1BoxOutline} size={IconSize} />
-          </div>,
+          </div>
         );
     }
     return boxes;
@@ -122,7 +131,7 @@ function Inventory({ G, playerID, moves, ctx, disabled, height }) {
               }
             }}
           />
-        </div>,
+        </div>
       );
     }
     return boxes;
@@ -138,10 +147,15 @@ function Inventory({ G, playerID, moves, ctx, disabled, height }) {
           style={{ height: UpgradeSize, width: UpgradeSize }}
         >
           <Icon path={mdiDiamondOutline} size={IconSize} />
-        </div>,
+        </div>
       );
     }
-    return boxes;
+    return (
+      <>
+        <InvBadge num={marble} />
+        {boxes}
+      </>
+    );
   };
 
   const InvWorkers = () => {
@@ -154,10 +168,15 @@ function Inventory({ G, playerID, moves, ctx, disabled, height }) {
           style={{ height: UpgradeSize, width: UpgradeSize }}
         >
           <Icon path={mdiHumanHandsup} size={IconSize} />
-        </div>,
+        </div>
       );
     }
-    return boxes;
+    return (
+      <>
+        <InvBadge num={workers} />
+        {boxes}
+      </>
+    );
   };
 
   const InvYield = () => {
@@ -170,7 +189,7 @@ function Inventory({ G, playerID, moves, ctx, disabled, height }) {
           style={{ height: UpgradeSize, width: UpgradeSize }}
         >
           <Icon path={mdiGiftOutline} size={IconSize} />
-        </div>,
+        </div>
       );
     }
     return boxes;
@@ -178,21 +197,6 @@ function Inventory({ G, playerID, moves, ctx, disabled, height }) {
 
   return (
     <div className="inventory" style={{ height, width: height }}>
-      {/* 
-      <div className="gamePhase">Phase Progress:</div>
-      <div className="gamePhase">
-        <Icon path={mdiRomanNumeral1} size={1} />
-        <DrawStack height={stackA} />
-      </div>
-      <div className="gamePhase">
-        <Icon path={mdiRomanNumeral2} size={1} />
-        <DrawStack height={stackB} />
-      </div>
-      <div className="gamePhase">
-        <Icon path={mdiRomanNumeral3} size={1} />
-        <DrawStack height={stackC} />
-      </div>
-      */}
       <div>
         {!disabled && (
           <UpgradeButton move={moves.upgrade_draw}>Cards</UpgradeButton>
@@ -224,7 +228,6 @@ function Inventory({ G, playerID, moves, ctx, disabled, height }) {
         )}
         <InvYield />
       </div>
-      {/*<Points G={G} playerID={playerID} />*/}
     </div>
   );
 }
@@ -246,23 +249,4 @@ const CancelReplaceStorage = ({ ctx, playerID, moves }) => {
     );
   }
   return <></>;
-};
-
-const Points = ({ G, playerID }) => {
-  const { greenPoints, redPoints } = G.players[playerID];
-  return (
-    <div className={"ml-2"}>
-      <div className="d-inline-block">
-        Points
-        <h3 className="d-inline-block ml-2">
-          <Badge variant="success">{greenPoints}</Badge>
-        </h3>
-      </div>
-      <div className="d-inline-block ml-2">
-        <h3>
-          <Badge variant="danger">{redPoints}</Badge>
-        </h3>
-      </div>
-    </div>
-  );
 };

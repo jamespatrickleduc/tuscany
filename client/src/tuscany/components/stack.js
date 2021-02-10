@@ -13,7 +13,7 @@ function Stack({ height, num }) {
   };
 
   for (let i = 0; i < num; i++) {
-    stack.push(<div style={style}></div>);
+    stack.push(<div key={i} style={style}></div>);
   }
 
   return (

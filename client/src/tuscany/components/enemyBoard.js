@@ -3,7 +3,6 @@ import useWindowSize from "../hooks/windowSize";
 import RegionPlay from "./regionPlay";
 import Inventory from "./inventory";
 import PhaseIndicator from "./phaseIndicator";
-import Stack from "./stack";
 import { mdiDiamondOutline } from "@mdi/js";
 import Icon from "@mdi/react";
 import Badge from "react-bootstrap/Badge";
@@ -17,11 +16,7 @@ function EnemyBoard({ G, ctx, id, matchData }) {
 
   const onTurn = ![undefined, "setup"].includes(ctx.activePlayers?.[id]);
 
-  const { greenPoints, redPoints, bonusTurn, hexTiles } = G.players[id];
-
-  const stackC = hexTiles.slice(0, 7).length;
-  const stackB = hexTiles.slice(7, 14).length;
-  const stackA = hexTiles.slice(14, 21).length;
+  const { greenPoints, redPoints, bonusTurn } = G.players[id];
 
   return (
     <div
@@ -74,11 +69,8 @@ function EnemyBoard({ G, ctx, id, matchData }) {
           disabled
         />
       </div>
-      {/*<PhaseIndicator G={G} playerID={id} height={height} />*/}
       <div style={{ position: "absolute", bottom: "1%", left: "60%" }}>
-        <Stack height={height / 3} num={stackA} />
-        <Stack height={height / 3} num={stackB} />
-        <Stack height={height / 3} num={stackC} />
+        <PhaseIndicator G={G} playerID={id} height={height} />
       </div>
       <div style={{ marginTop: "1%" }}>
         <Inventory G={G} playerID={id} ctx={ctx} height={height} disabled />

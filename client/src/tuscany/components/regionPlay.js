@@ -2,6 +2,7 @@ import React from "react";
 import { defineGrid, extendHex } from "honeycomb-grid";
 import Tile from "./tile";
 import "./sharedRegion.css";
+import PhaseIndicator from "./phaseIndicator";
 
 class RegionPlay extends React.Component {
   render() {
@@ -71,13 +72,18 @@ class RegionPlay extends React.Component {
             else if (start_castle) moves.place_starting_castle(h, playerID);
             else if (elligible && isPickingFreebie) moves.place_tile(h);
           }}
-        />,
+        />
       );
     });
 
     return (
       <div className="outer">
         <div className="tileArea">{tiles}</div>
+        {!disabled && (
+          <div style={{ position: "absolute", bottom: "35%", right: "2%" }}>
+            <PhaseIndicator G={G} playerID={playerID} height={height * 0.5} />
+          </div>
+        )}
       </div>
     );
   }
